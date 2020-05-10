@@ -1,4 +1,4 @@
-.PHONY: create_cluster create_nodegroup kebeflow-setup del_eks del_nodegroup
+.PHONY: create_cluster create_nodegroup kebeflow-setup del_eks del_nodegroup del_kubeflow
 
 # USAGE
 ## 1. when you do not have eks cluster
@@ -13,8 +13,8 @@
 ### $make del_eks
 
 # user variables. you should change these variables. 
-cluster_name = jyj-cluster-test
-node_name = test-node1
+cluster_name = jyj-cluster-test-1
+node_name = jyj-node-2
 node_type = m5.xlarge # AL2_x86_64
 gpu_node_type = p3.2xlarge # AL2_x86_64_GPU
 ssh_key_pair = jungjuyoung-dist-test
@@ -68,8 +68,15 @@ kubeflow_setup:
 	./kfctl apply -V -f ${kf_dir}/kfctl_aws.yaml
 	kubectl -n kubeflow get all
 
-del_eks:
-	eksctl delete cluster --name ${cluster_name}
+del_kubeflow:
+	cd ${kf_dir}
+	kfctl delelte -f ${kf_dir}/kfctl_aws.yaml
+
 
 del_nodegroup:
 	eksctl delete nodegroup --cluster ${cluster_name} --name ${node_name}
+
+del_eks:
+	eksctl delete cluster --name ${cluster_name}
+
+
