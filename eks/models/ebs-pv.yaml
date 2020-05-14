@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ebs-pv
+  name: vol-my-pv2
 spec:
   capacity:
     storage: 50Gi
@@ -9,4 +9,4 @@ spec:
     - ReadWriteOnce
   awsElasticBlockStore:
       fsType: ext4
-      volumeID: <VOLUME_ID>
+      volumeID: vol-0880c46ff964d64ea

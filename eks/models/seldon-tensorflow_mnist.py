@@ -5,7 +5,7 @@ import tensorflow as tf
 def train():
     print("TensorFlow version: ", tf.__version__)
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_path', default='/mnt/pv/tensorflow/mnist/model', type=str)
+    parser.add_argument('--model_path', default='/mnt/pv/tensorflow/mnist/models', type=str)
     args = parser.parse_args()
     version = 1
     export_path = os.path.join(args.model_path, str(version))
