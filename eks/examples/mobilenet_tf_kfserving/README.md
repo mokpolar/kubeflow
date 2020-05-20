@@ -1,9 +1,22 @@
-# KFServing with MobileNet
+# KFServing with MobileNet on aws
 
-* transformer-preprocessing
-* predictor
-* transformer-postprocessing
-* explainer
+## Workflow
+* Set Environmetn using [Makefile](https://github.com/mokpolar/kubeflow/blob/master/eks/Makefile)
+    * create eks cluster & nodegroup
+    * install kubeflow on nodegroup
+
+* build pv & binding pvc
+
+* fairing
+    * make dockerfile
+    * model code
+    * docker
+
+* KFserving
+    * transformer-preprocessing
+    * predictor
+    * transformer-postprocessing
+    * explainer
 
 ---
 
