@@ -1,7 +1,19 @@
 # kubeflow
 
-kubeflow install setting using Makefile
+Automation for installing kubeflow by Makefile
+
+---
+## EKS
+
+kubeflow on AWS EKS cluster needs kubectl, aws command line interface, aws access keys, aws eksctl.
 
 
-1. eks
-* On AWS EKS cluster
+### USAGE
+* $make create_cluster
+* $make create_nodegroup
+* $make install_kubeflow
+* $make uninstall_kubeflow
+* $make del_nodegroup
+* $make del_cluster
+
+
