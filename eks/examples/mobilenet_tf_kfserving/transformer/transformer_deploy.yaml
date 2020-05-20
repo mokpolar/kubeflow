@@ -1,0 +1,14 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "mobilenet-transformer"
+spec:
+  default:
+    predictor:
+      tensorflow:
+        storageUri: "pvc://my-pvc/models/keras/mobilenet/"
+    transformer:
+      custom:
+        container:
+          image: mokpolar/mobilenet-transformer:0.0.1
+  

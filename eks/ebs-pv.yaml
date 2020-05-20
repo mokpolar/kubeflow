@@ -1,0 +1,15 @@
+# export VOLUME_ID=$(aws ec2 create-volume --size 50 --region us-east-1 --availability-zone us-east-1f --volume-type gp2 | jq '.VolumeId' -)
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  awsElasticBlockStore:
+      fsType: ext4
+      volumeID: vol-07e53f6e6a0b8fb43

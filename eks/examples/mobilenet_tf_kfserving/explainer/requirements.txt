@@ -1,3 +1,0 @@
-dill >= 0.3
-tensorflow == 1.15.2
-alibi >= 0.4.0

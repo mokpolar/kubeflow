@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vol-my-pvc2
+  name: my-pvc
 spec:
   storageClassName: ""
   accessModes:

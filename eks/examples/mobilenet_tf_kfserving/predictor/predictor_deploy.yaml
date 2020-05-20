@@ -1,0 +1,9 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "keras-mobnet"
+spec:
+    default:
+      predictor:
+        tensorflow:
+          storageUri: "pvc://my-pvc/models/keras/mobnet/"
