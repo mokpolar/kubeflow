@@ -57,7 +57,7 @@ create_nodegroup:
 	aws eks --region ${region} update-kubeconfig --name ${cluster_name}
 	# create managed nodegroup 
 	eksctl create nodegroup --cluster ${cluster_name} --version ${kube_ver} --name ${node_name} --node-type ${gpu_node_type} \
-	--nodes 2 --nodes-min 2 --nodes-max 4 --node-volume-size 50 --ssh-public-key ${ssh_key_pair} --managed
+	--nodes 1 --nodes-min 1 --nodes-max 4 --node-volume-size 50 --ssh-public-key ${ssh_key_pair} --managed
 
 install_kubeflow:
 	# eks config set
@@ -75,7 +75,7 @@ install_kubeflow:
 	#cd ${kf_dir} 
 
 	# config_uri or cognito_uri
-	wget -O ${kf_dir}/kfctl_aws.yaml ${config_uri}
+	wget -O ${kf_dir}/kfctl_aws.yaml ${cognito_uri}
 
 	# change config file
 	# use IAM for Service Account

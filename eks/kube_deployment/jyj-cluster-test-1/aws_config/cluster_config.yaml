@@ -6,6 +6,7 @@ metadata:
   version: "1.14"
 nodeGroups:
 - desiredCapacity: 2
+  availabilityZones: ["us-east-1f"]
   instanceType: m5.xlarge
   maxSize: 3
   minSize: 0

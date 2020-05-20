@@ -31,19 +31,11 @@ spec:
   - kustomizeConfig:
       parameters:
       - name: clusterRbacConfig
-        value: 'OFF'
+        value: 'ON'
       repoRef:
         name: manifests
         path: istio/istio
     name: istio
-  - kustomizeConfig:
-      parameters:
-      - name: namespace
-        value: istio-system
-      repoRef:
-        name: manifests
-        path: istio/add-anonymous-user-filter
-    name: add-anonymous-user-filter
   - kustomizeConfig:
       repoRef:
         name: manifests
@@ -105,6 +97,9 @@ spec:
       overlays:
       - istio
       - application
+      parameters:
+      - name: userid-header
+        value: kubeflow-userid
       repoRef:
         name: manifests
         path: common/centraldashboard
@@ -268,6 +263,8 @@ spec:
       overlays:
       - application
       parameters:
+      - name: minioPvName
+        value: minio-pv
       - name: minioPvcName
         value: minio-pv-claim
       repoRef:
@@ -278,6 +275,8 @@ spec:
       overlays:
       - application
       parameters:
+      - name: mysqlPvName
+        value: mysql-pv
       - name: mysqlPvcName
         value: mysql-pv-claim
       repoRef:
@@ -331,6 +330,9 @@ spec:
       overlays:
       - application
       - istio
+      parameters:
+      - name: userid-header
+        value: kubeflow-userid
       repoRef:
         name: manifests
         path: profiles
@@ -349,6 +351,30 @@ spec:
         name: manifests
         path: mpi-job/mpi-operator
     name: mpi-operator
+  - kustomizeConfig:
+      overlays:
+      - cognito
+      parameters:
+      - name: namespace
+        value: istio-system
+      repoRef:
+        name: manifests
+        path: aws/istio-ingress
+    name: istio-ingress
+  - kustomizeConfig:
+      overlays:
+      - application
+      parameters:
+      - name: namespace
+        value: istio-system
+      - name: origin-header
+        value: x-amzn-oidc-data
+      - name: custom-header
+        value: kubeflow-userid
+      repoRef:
+        name: manifests
+        path: aws/aws-istio-authz-adaptor
+    name: aws-istio-authz-adaptor
   - kustomizeConfig:
       overlays:
       - application
@@ -372,13 +398,14 @@ spec:
       name: aws
     spec:
       auth:
-        basicAuth:
-          password:
-            name: password
-          username: admin
+        cognito:
+          certArn: arn:aws:acm:us-west-2:xxxxx:certificate/xxxxxxxxxxxxx-xxxx
+          cognitoAppClientId: xxxxxbxxxxxx
+          cognitoUserPoolArn: arn:aws:cognito-idp:us-west-2:xxxxx:userpool/us-west-2_xxxxxx
+          cognitoUserPoolDomain: your-user-pool
       region: us-east-1
       enablePodIamPolicy: true
-      - eksctl-kubeflow-aws-nodegroup-ng-a2-NodeInstanceRole-xxxxxxx
+      - eksctl-kubeflow-aws-nodegroup-ng-a2-NodeInstanceRole-xxxxx
   repos:
   - name: manifests
     uri: https://github.com/kubeflow/manifests/archive/v1.0.2.tar.gz
