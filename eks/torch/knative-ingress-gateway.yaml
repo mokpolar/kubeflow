@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.istio.io/v1alpha3","kind":"Gateway","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"knative-serving-install","app.kubernetes.io/instance":"knative-serving-install-v0.11.1","app.kubernetes.io/managed-by":"kfctl","app.kubernetes.io/name":"knative-serving-install","app.kubernetes.io/part-of":"kubeflow","app.kubernetes.io/version":"v0.11.1","kustomize.component":"knative","networking.knative.dev/ingress-provider":"istio"},"name":"knative-ingress-gateway","namespace":"knative-serving"},"spec":{"selector":{"app":"kfserving-ingressgateway","kfserving":"ingressgateway"},"servers":[{"hosts":["*"],"port":{"name":"http","number":80,"protocol":"HTTP"}}]}}
+  creationTimestamp: "2020-05-06T15:13:16Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/component: knative-serving-install
+    app.kubernetes.io/instance: knative-serving-install-v0.11.1
+    app.kubernetes.io/managed-by: kfctl
+    app.kubernetes.io/name: knative-serving-install
+    app.kubernetes.io/part-of: kubeflow
+    app.kubernetes.io/version: v0.11.1
+    kustomize.component: knative
+    networking.knative.dev/ingress-provider: istio
+  name: knative-ingress-gateway
+  namespace: knative-serving
+  resourceVersion: "9391"
+  selfLink: /apis/networking.istio.io/v1alpha3/namespaces/knative-serving/gateways/knative-ingress-gateway
+  uid: 95f428c0-2ba6-4133-bb17-2d735158778e
+spec:
+  selector:
+    app: kfserving-ingressgateway
+    kfserving: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http
+      number: 80
+      protocol: HTTP

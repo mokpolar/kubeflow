@@ -1,0 +1,14 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "pytorch-cifar10-transformer" # transformer name -> end point에 반영
+spec:
+  default:
+    predictor:
+      pytorch:
+        storageUri: "pvc://vol-my-pvc3/models/pytorch/cifar10/" # model storage url
+        modelClassName: "Net"
+    transformer:
+      custom:
+        container:
+          image: mokpolar/kfserving-transformer:0.0.1 # my docker hub 
