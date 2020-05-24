@@ -6,7 +6,7 @@ spec:
   default:
     predictor:
       pytorch:
-        storageUri: "pvc://vol-my-pvc3/models/pytorch/cifar10/" # model storage url
+        storageUri: "pvc://my-pvc/models/pytorch/cifar10/" # model storage url
         modelClassName: "Net"
     transformer:
       custom:

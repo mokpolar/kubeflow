@@ -6,5 +6,5 @@ spec:
   default:
     predictor:
       pytorch:
-        storageUri: "pvc://vol-my-pvc3/models/pytorch/cifar10/"
+        storageUri: "pvc://my-pvc/models/pytorch/cifar10/"
         modelClassName: "Net"
