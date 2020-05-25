@@ -14,6 +14,11 @@ import numpy as np
 # pip install opencv-python -> dockerfile
 from PIL import Image
 
+import time
+
+start = time.time()
+
+
 # for MobileNet Prediction Parsing
 from tensorflow.keras.applications.mobilenet import decode_predictions
 import tensorflow as tf
@@ -52,7 +57,8 @@ class ImageTransformer(kfserving.KFModel):
         return {'instances': image_transform(inputs['instances'][0])}
 
     def postprocess(self, inputs: Dict) -> Dict:
-        return {'predictions': [parsing_prediction(prediction) for prediction in inputs['predictions']]}
+        end = time.time()
+        return {'predictions': [parsing_prediction(prediction) for prediction in inputs['predictions']], 'time' : [end - start]}
 
 
 if __name__ == "__main__":
