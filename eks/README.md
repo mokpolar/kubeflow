@@ -12,6 +12,12 @@ make create_cluster
 make create_nodegroup
 make install_kubeflow
 ```
+* kfserving-ingressgateway -> istio-ingressgateway
+```bash
+kubectl -n knative-serving apply -f ./base-settings/config-istio.yaml
+kubectl -n kubeflow apply -f ./base-settings/inferenceservice-config.yaml
+kubectl -n knative-serving apply -f ./base-settings/knative-ingress-gateway.yaml
+```
 
 * Build PV on EBS
 * Bind PVC
