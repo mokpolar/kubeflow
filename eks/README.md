@@ -26,6 +26,10 @@ kubectl patch service -n istio-system istio-ingressgateway -p '{"spec": {"type":
 
 
 * Build PV on EBS
+```bash
+sh ./set-ebs-pv.sh
+```
+
 * Bind PVC
 
 * Fairing (predictor)
