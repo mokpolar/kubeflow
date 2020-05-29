@@ -13,8 +13,8 @@
 ### $make del_eks
 
 # user variables. you should change these variables. 
-cluster_name = jyj-cluster-test-1
-node_name = jyj-node-2
+cluster_name = jy-kubeflow-test
+node_name = kubeflow-node-1
 node_type = m5.xlarge # AL2_x86_64
 gpu_node_type = p3.2xlarge # AL2_x86_64_GPU
 ssh_key_pair = jungjuyoung-dist-test
@@ -45,7 +45,7 @@ kfctl_file = https://github.com/kubeflow/kfctl/releases/download/v1.0.2/kfctl_v1
 
 create_cluster:
 	# create cluster
-	eksctl create cluster --name ${cluster_name} --region ${region}
+	eksctl create cluster --name ${cluster_name} --region ${region} --zones us-east-1a,us-east-1b
 	# eks config set
 	aws eks --region ${region} update-kubeconfig --name ${cluster_name}
 	# check eks cluster, nodes. 
@@ -56,7 +56,7 @@ create_nodegroup:
 	# eks config set
 	aws eks --region ${region} update-kubeconfig --name ${cluster_name}
 	# create managed nodegroup 
-	eksctl create nodegroup --cluster ${cluster_name} --version ${kube_ver} --name ${node_name} --node-type ${gpu_node_type} \
+	eksctl create nodegroup --cluster ${cluster_name} --version ${kube_ver} --name ${node_name} --node-type ${node_type} \
 	--nodes 1 --nodes-min 1 --nodes-max 4 --node-volume-size 50 --ssh-public-key ${ssh_key_pair} --managed
 
 install_kubeflow:
@@ -75,7 +75,7 @@ install_kubeflow:
 	#cd ${kf_dir} 
 
 	# config_uri or cognito_uri
-	wget -O ${kf_dir}/kfctl_aws.yaml ${cognito_uri}
+	wget -O ${kf_dir}/kfctl_aws.yaml ${config_uri}
 
 	# change config file
 	# use IAM for Service Account
@@ -84,8 +84,8 @@ install_kubeflow:
 	sed -i -e '/eksctl/d' ${kf_dir}/kfctl_aws.yaml
 
 	# deploy kubeflow
-	#./kfctl apply -V -f ${kf_dir}/kfctl_aws.yaml
-	#kubectl -n kubeflow get all
+	./kfctl apply -V -f ${kf_dir}/kfctl_aws.yaml
+	kubectl -n kubeflow get all
 
 uninstall_kubeflow:
 	cd ${kf_dir}

@@ -1,0 +1,65 @@
+apiVersion: serving.knative.dev/v1
+kind: Configuration
+metadata:
+  annotations:
+    serving.knative.dev/creator: system:serviceaccount:kubeflow:default
+    serving.knative.dev/lastModifier: system:serviceaccount:kubeflow:default
+  creationTimestamp: "2020-05-25T04:32:07Z"
+  generation: 3
+  labels:
+    serving.knative.dev/route: complex-mobilenet-transformer-transformer-default
+    serving.knative.dev/service: complex-mobilenet-transformer-transformer-default
+  name: complex-mobilenet-transformer-transformer-default
+  namespace: mobilenet
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Service
+    name: complex-mobilenet-transformer-transformer-default
+    uid: ecb3d34c-8315-4a51-bf36-57f93ced20fd
+  resourceVersion: "4089532"
+  selfLink: /apis/serving.knative.dev/v1/namespaces/mobilenet/configurations/complex-mobilenet-transformer-transformer-default
+  uid: 5628ef63-7d94-4c6f-99c7-2edde9ba2566
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/class: kpa.autoscaling.knative.dev
+        autoscaling.knative.dev/target: "1"
+        queue.sidecar.serving.knative.dev/resourcePercentage: "0.2"
+      creationTimestamp: null
+      labels:
+        serving.kubeflow.org/inferenceservice: complex-mobilenet-transformer
+    spec:
+      containerConcurrency: 0
+      containers:
+      - args:
+        - --model_name
+        - complex-mobilenet-transformer
+        - --predictor_host
+        - complex-mobilenet-transformer-predictor-default.mobilenet
+        - --http_port
+        - "8080"
+        image: mokpolar/complex-mobilenet-transformer:0.0.1
+        name: user-container
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: "1"
+            memory: 2Gi
+      timeoutSeconds: 360
+status:
+  conditions:
+  - lastTransitionTime: "2020-05-26T06:26:41Z"
+    status: "True"
+    type: Ready
+  latestCreatedRevisionName: complex-mobilenet-transformer-transformer-default-vx5bt
+  latestReadyRevisionName: complex-mobilenet-transformer-transformer-default-vx5bt
+  observedGeneration: 3

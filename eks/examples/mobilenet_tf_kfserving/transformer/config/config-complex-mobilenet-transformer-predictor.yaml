@@ -1,0 +1,66 @@
+apiVersion: serving.knative.dev/v1
+kind: Configuration
+metadata:
+  annotations:
+    serving.knative.dev/creator: system:serviceaccount:kubeflow:default
+    serving.knative.dev/lastModifier: system:serviceaccount:kubeflow:default
+  creationTimestamp: "2020-05-25T04:32:07Z"
+  generation: 5
+  labels:
+    serving.knative.dev/route: complex-mobilenet-transformer-predictor-default
+    serving.knative.dev/service: complex-mobilenet-transformer-predictor-default
+  name: complex-mobilenet-transformer-predictor-default
+  namespace: mobilenet
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Service
+    name: complex-mobilenet-transformer-predictor-default
+    uid: f735a1c0-f85b-43fb-a4ec-3e61deeb6d7c
+  resourceVersion: "4093488"
+  selfLink: /apis/serving.knative.dev/v1/namespaces/mobilenet/configurations/complex-mobilenet-transformer-predictor-default
+  uid: 51613774-dcf0-4a6b-b5e0-c3d4df24013d
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/class: kpa.autoscaling.knative.dev
+        autoscaling.knative.dev/target: "1"
+        internal.serving.kubeflow.org/storage-initializer-sourceuri: pvc://my-pvc/models/tensorflow/mobilenet/
+        queue.sidecar.serving.knative.dev/resourcePercentage: "0.2"
+      creationTimestamp: null
+      labels:
+        serving.kubeflow.org/inferenceservice: complex-mobilenet-transformer
+    spec:
+      containerConcurrency: 0
+      containers:
+      - args:
+        - --port=9000
+        - --rest_api_port=8080
+        - --model_name=complex-mobilenet-transformer
+        - --model_base_path=/mnt/models
+        command:
+        - /usr/bin/tensorflow_model_server
+        image: tensorflow/serving:1.14.0
+        name: kfserving-container
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: "1"
+            memory: 2Gi
+      timeoutSeconds: 300
+status:
+  conditions:
+  - lastTransitionTime: "2020-05-26T06:33:41Z"
+    status: "True"
+    type: Ready
+  latestCreatedRevisionName: complex-mobilenet-transformer-predictor-default-pfsrg
+  latestReadyRevisionName: complex-mobilenet-transformer-predictor-default-pfsrg
+  observedGeneration: 5

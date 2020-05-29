@@ -1,0 +1,63 @@
+apiVersion: serving.knative.dev/v1
+kind: Configuration
+metadata:
+  annotations:
+    serving.knative.dev/creator: system:serviceaccount:kubeflow:default
+    serving.knative.dev/lastModifier: system:serviceaccount:kubeflow:default
+  creationTimestamp: "2020-05-26T09:04:51Z"
+  generation: 1
+  labels:
+    serving.knative.dev/route: complex-mobilenet-transformer-predictor-default
+    serving.knative.dev/service: complex-mobilenet-transformer-predictor-default
+  name: complex-mobilenet-transformer-predictor-default
+  namespace: mobilenet
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Service
+    name: complex-mobilenet-transformer-predictor-default
+    uid: 325c0bf9-de66-47ce-bfa8-95e11eeafdbb
+  resourceVersion: "4165069"
+  selfLink: /apis/serving.knative.dev/v1/namespaces/mobilenet/configurations/complex-mobilenet-transformer-predictor-default
+  uid: 0784241a-ae4c-42d2-b02a-3828ec1f02bd
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/class: kpa.autoscaling.knative.dev
+        autoscaling.knative.dev/target: "1"
+        internal.serving.kubeflow.org/storage-initializer-sourceuri: pvc://my-pvc/models/tensorflow/mobilenet/
+        queue.sidecar.serving.knative.dev/resourcePercentage: "0.2"
+      creationTimestamp: null
+      labels:
+        serving.kubeflow.org/inferenceservice: complex-mobilenet-transformer
+    spec:
+      containerConcurrency: 0
+      containers:
+      - args:
+        - --port=9000
+        - --rest_api_port=8080
+        - --model_name=complex-mobilenet-transformer
+        - --model_base_path=/mnt/models
+        command:
+        - /usr/bin/tensorflow_model_server
+        image: tensorflow/serving:1.14.0
+        name: kfserving-container
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: "1"
+            memory: 2Gi
+      timeoutSeconds: 300
+status:
+  conditions:
+  - lastTransitionTime: "2020-05-26T09:05:07Z"
+    status: "True"
+    type: Ready
