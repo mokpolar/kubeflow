@@ -7,6 +7,11 @@ Serving된 모델로 들어오기 전에 KFServing의 Transformer를 이용해 �
 * Set environment using [Makefile](https://github.com/mokpolar/kubeflow/blob/master/eks/Makefile)
     * Create eks cluster & nodegroup
     * Install kubeflow on nodegroup
+```py
+make create_cluster
+make create_nodegroup
+make install_kubeflow
+```
 
 * Build PV on EBS
 * Bind PVC
