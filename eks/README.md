@@ -19,6 +19,12 @@ kubectl -n kubeflow apply -f ./base-settings/inferenceservice-config.yaml
 kubectl -n knative-serving apply -f ./base-settings/knative-ingress-gateway.yaml
 ```
 
+* set loadbalancer
+```bash
+kubectl patch service -n istio-system istio-ingressgateway -p '{"spec": {"type": "LoadBalancer"}}'
+```
+
+
 * Build PV on EBS
 * Bind PVC
 
