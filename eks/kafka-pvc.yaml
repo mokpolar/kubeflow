@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: my-pvc-a
+  name: kafka-pvc-3
 spec:
   storageClassName: ""
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 55Gi
+      storage: 20Gi

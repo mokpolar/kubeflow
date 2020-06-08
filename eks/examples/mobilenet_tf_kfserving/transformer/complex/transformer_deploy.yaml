@@ -7,7 +7,7 @@ spec:
     predictor:
       minReplicas: 1
       tensorflow:
-        storageUri: "pvc://my-pvc/models/tensorflow/mobilenet/"
+        storageUri: "pvc://my-pvc-b/models/tensorflow/mobilenet/"
     transformer:
       minReplicas: 1
       custom:
