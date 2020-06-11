@@ -1,4 +1,4 @@
-# Examples
+# Samples
 
 * KFServing-Tensorflow-basic
 * KFServing-Tensorflow-Mobilenet
