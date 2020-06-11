@@ -1,6 +1,6 @@
 # kubeflow
 
-Automation for installing kubeflow by Makefile
+Automation for installing kubeflow using Makefile
 
 ---
 ## EKS
