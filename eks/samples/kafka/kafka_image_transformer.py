@@ -107,7 +107,7 @@ class ImageTransformer(kfserving.KFModel):
         print('post1!')
         print('this is inputs!')
         print('post2!')
-        #client.upload_file('/tmp/' + self._key, 'class', self._key)
+        client.upload_file('/tmp/' + self._key, 'class', self._key)
         classified = [parsing_prediction(prediction) for prediction in inputs['predictions']]
         logging.info(classified)
         return inputs#{'predictions': [parsing_prediction(prediction) for prediction in inputs['predictions']]}

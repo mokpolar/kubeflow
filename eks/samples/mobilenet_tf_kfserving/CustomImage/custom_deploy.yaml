@@ -1,0 +1,13 @@
+apiVersion: serving.kubeflow.org/v1alpha2
+kind: InferenceService
+metadata:
+  name: custom-hello
+spec:
+  default:
+    predictor:
+      custom:
+        container:
+          image: mokpolar/kfserving-hello:0.0.1
+          env:
+            - name: GREETING_TARGET
+              value: "Python KFServing Sample"
