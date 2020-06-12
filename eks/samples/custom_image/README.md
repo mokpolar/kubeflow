@@ -19,13 +19,11 @@ If you don't want to upload a separate Web server, KFServing.KFModel shall be us
 1. Custom Predictor Image build
 ```sh
 docker build -t {USER}/{IMAGE}:{TAG} .
-docker build -t mokpolar/custom-predictor:0.0.1 .
 ```
 
 2. Push
 ```sh
 docker push {USER}/{IMAGE}:{TAG}
-docker push mokpolar/custom-predictor:0.0.1
 ```
 
 3. Deploy
