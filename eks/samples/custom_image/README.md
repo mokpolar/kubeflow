@@ -45,7 +45,9 @@ sh ./infer.sh
 ![input](./output/3.png)
 
 * prediction log
+
 ![prediction log](./output/1.png)
 
 * output
+
 ![output](./output/2.png)
