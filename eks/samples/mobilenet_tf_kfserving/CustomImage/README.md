@@ -1,21 +1,31 @@
 
 # README
 
+## Objective
+
 This test was conducted to incorporate the preprocessing code used in the transformer into the Predictor without using the transformer.
+
+If you don't want to upload a separate Web server, KFServing.KFModel shall be used as is.
+
+- In/Out : image file list
+- InferenceService : user's custom image
+
 
 
 ## Process
 
-- model.py exists. 
+* model : MobileNet
 
 1. Custom Predictor Image build
 ```sh
-docker build {USERS}/{DOCKER}:{TAG} . 
+docker build -t {USER}/{IMAGE}:{TAG} .
+docker build -t mokpolar/custom-predictor:0.0.1 .
 ```
 
 2. Push
 ```sh
-docker push {USERS}/{DOCKER}:{TAG}
+docker push {USER}/{IMAGE}:{TAG}
+docker push mokpolar/custom-predictor:0.0.1
 ```
 
 3. Deploy

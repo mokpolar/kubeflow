@@ -1,11 +1,11 @@
-FROM python:3.6-slim
+FROM tensorflow/tensorflow:2.1.0-py3
 
-RUN pip install torch torchvision
-RUn pip install kfserving==0.3.0
+RUN pip install kfserving==0.3.0 numpy
+RUN pip install image
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-ADD model.py /app/
-ADD model.pt /app/
+ADD cat.jpg /tmp/img/
+ADD saved_models /app/
 
-CMD ["python", "custom_model.py"]
+CMD ["python", "custom_predictor.py"]

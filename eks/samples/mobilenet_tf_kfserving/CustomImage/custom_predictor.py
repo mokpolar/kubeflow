@@ -1,33 +1,23 @@
+import argparse
 import base64
 import io
+import logging
 from typing import Dict
 
+import json
+
+# pip install kfserving==0.3.0 -> dockerfile
 import kfserving
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torchvision.transforms as transforms
+# pip install numpy -> dockerfile
+import numpy as np
+
+# pip install opencv-python -> dockerfile
 from PIL import Image
+from PIL import ImageFilter
 
-
-class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
+# for MobileNet Prediction Parsing
+from tensorflow.keras.applications.mobilenet import decode_predictions
+import tensorflow as tf
 
 
 class KFServingSampleModel(kfserving.KFModel):
@@ -35,44 +25,43 @@ class KFServingSampleModel(kfserving.KFModel):
         super().__init__(name)
         self.name = name
         self.ready = False
+        
 
     def load(self):
-        self.classes = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
-
-        net = Net()
-        state_dict = torch.load("model.pt")
-        net.load_state_dict(state_dict)
-        net.eval()
-        self.model = net
-
+        model_raw = tf.keras.experimental.load_from_saved_model('./saved_models/')
+        
+        # add model to class
+        self._model = model_raw
         self.ready = True
 
     def predict(self, request: Dict) -> Dict:
+        # inputs : img file path ex) /tmp/img/cat.jpg
         inputs = request["instances"]
 
-        data = inputs[0]["image"]["b64"]
 
-        raw_img_data = base64.b64decode(data)
-        input_image = Image.open(io.BytesIO(raw_img_data))
+        # KFServing - Transformer
+        # Preprocess
+        img = Image.open(inputs)
+        img = img.rotate(90).rotate(90).rotate(90).rotate(90)
+        img = img.transpose(Image.FLIP_TOP_BOTTOM).transpose(Image.FLIP_TOP_BOTTOM)
+        img = img.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.FLIP_LEFT_RIGHT)
+        img = img.resize((224, 224))
+        img = np.array(img)
+        img = img/255
+        img = img.reshape(-1, 224, 224, 3)
+        print('image preprocessing complete!')
 
-        preprocess = transforms.Compose([
-            transforms.Resize(32),
-            transforms.CenterCrop(32),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        # KFServing - Predictor
+        loaded_model = self._model
+        yhat = loaded_model.predict(img)
 
-        input_tensor = preprocess(input_image)
-        input_batch = input_tensor.unsqueeze(0)
 
-        output = self.model(input_batch)
+        # KFServing - Transformer
+        label = decode_predictions(yhat)
+        label = label[0][0]
+        results = [label[1], str(round(label[2]*100, 2))+'%']
+        logging.info(results)
 
-        scores = torch.nn.functional.softmax(output, dim=1)[0]
-
-        _, top_3 = torch.topk(output, 3)
-
-        results = {}
-        for idx in top_3[0]:
-            results[self.classes[idx]] = scores[idx].item()
 
         return {"predictions": results}
 
