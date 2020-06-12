@@ -41,7 +41,8 @@ class KFServingSampleModel(kfserving.KFModel):
 
         # KFServing - Transformer
         # Preprocess
-        img = Image.open(inputs)
+        img = Image.open(inputs[0])
+
         img = img.rotate(90).rotate(90).rotate(90).rotate(90)
         img = img.transpose(Image.FLIP_TOP_BOTTOM).transpose(Image.FLIP_TOP_BOTTOM)
         img = img.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.FLIP_LEFT_RIGHT)
@@ -49,9 +50,9 @@ class KFServingSampleModel(kfserving.KFModel):
         img = np.array(img)
         img = img/255
         img = img.reshape(-1, 224, 224, 3)
-        print('image preprocessing complete!')
 
         # KFServing - Predictor
+        logging.info('start predicting!')
         loaded_model = self._model
         yhat = loaded_model.predict(img)
 
@@ -63,10 +64,10 @@ class KFServingSampleModel(kfserving.KFModel):
         logging.info(results)
 
 
-        return {"predictions": results}
+        return inputs[0]#{"predictions": inputs[0]}#{"predictions": results}
 
 
 if __name__ == "__main__":
-    model = KFServingSampleModel("custom-model")
+    model = KFServingSampleModel("custom-predictor")
     model.load()
     kfserving.KFServer(workers=1).start([model])

@@ -35,5 +35,17 @@ kubectl apply custom_deploy.yaml -n {NAMESPACE}
 
 4. Inference
 ```sh
-kubectl -
+sh ./infer.sh
 ```
+
+
+5. Result
+* input
+
+![input](./output/3.png)
+
+* prediction log
+![prediction log](./output/1.png)
+
+* output
+![output](./output/2.png)
