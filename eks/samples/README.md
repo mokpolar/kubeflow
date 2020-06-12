@@ -5,3 +5,4 @@
 * Seldoncore-Tensorflow-basic
 * KFServing-Pytorch-basic
 * Minio -> Kafka -> KFServing-Tensorflow-MobileNet
+* custom image
