@@ -28,7 +28,7 @@ class KFServingSampleModel(kfserving.KFModel):
         
 
     def load(self):
-        model_raw = tf.keras.experimental.load_from_saved_model('./saved_models/')
+        model_raw = tf.keras.experimental.load_from_saved_model('/app/saved_models/')
         
         # add model to class
         self._model = model_raw
