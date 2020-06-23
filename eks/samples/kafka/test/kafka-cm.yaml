@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-channel-controller-config
+  namespace: knative-eventing
+data:
+  # Broker URL's for the provisioner. Replace this with the URL's for your kafka cluster.
+  bootstrap_servers: ec2-100-25-133-138.compute-1.amazonaws.com:9092

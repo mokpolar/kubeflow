@@ -1,0 +1,13 @@
+apiVersion: sources.knative.dev/v1alpha1
+kind: KafkaSource
+metadata:
+  name: kafka-source
+spec:
+  consumerGroup: knative-group
+  bootstrapServers: 100.25.133.138:9092 #note the kafka namespace
+  topics: mnist
+  sink:
+    ref:
+      apiVersion: serving.kubeflow.org/v1alpha2
+      kind: InferenceService
+      name: custom-predictor

@@ -1,0 +1,13 @@
+apiVersion: sources.eventing.knative.dev/v1alpha1
+kind: KafkaSource
+metadata:
+  name: kafka-source
+  namespace: default
+spec:
+  consumerGroup: knative-group
+  bootstrapServers: ec2-100-25-133-138.compute-1.amazonaws.com:9092
+  topics: my-topic
+  sink:
+    apiVersion: serving.knative.dev/v1alpha1
+    kind: Service
+    name: logevents

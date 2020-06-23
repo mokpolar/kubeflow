@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: inferenceservice-addressable-resolver
   labels:
-    contrib.eventing.knative.dev/release: devel
+    contrib.eventing.knative.dev/release: devel # 이 부분이 knative에서  inference로 전달하는 부분인가?
     duck.knative.dev/addressable: "true"
 # Do not use this role directly. These rules will be added to the "addressable-resolver" role.
 rules:
