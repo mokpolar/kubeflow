@@ -42,7 +42,8 @@ def convert():
     elif file_type == 'base64':
         with open(os.path.join(file_path, name + '.json'), 'w') as f:
             string = base64.encodebytes(img).decode('utf-8')
-            res = {'instances': [string]}
+            res = {'instances': [{'image': {'b64' : string}}]}
+
             json.dump(res, f, ensure_ascii = False)
 
     return res

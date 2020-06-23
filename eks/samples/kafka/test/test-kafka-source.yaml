@@ -5,9 +5,9 @@ metadata:
 spec:
   consumerGroup: knative-group
   bootstrapServers: 100.25.133.138:9092 #note the kafka namespace
-  topics: mnist
+  topics: complex
   sink:
     ref:
       apiVersion: serving.kubeflow.org/v1alpha2
       kind: InferenceService
-      name: custom-predictor
+      name: complex-mobilenet-transformer
