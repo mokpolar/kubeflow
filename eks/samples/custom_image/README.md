@@ -3,7 +3,7 @@
 
 ## Objective
 
-This test was conducted to incorporate the preprocessing code used in the transformer into the Predictor without using the transformer.
+This test was conducted to incorporate the preprocessing code used in the Transformer into the Predictor without using the Transformer.
 
 If you don't want to upload a separate Web server, KFServing.KFModel shall be used as is.
 
@@ -19,13 +19,11 @@ If you don't want to upload a separate Web server, KFServing.KFModel shall be us
 1. Custom Predictor Image build
 ```sh
 docker build -t {USER}/{IMAGE}:{TAG} .
-docker build -t mokpolar/custom-predictor:0.0.1 .
 ```
 
 2. Push
 ```sh
 docker push {USER}/{IMAGE}:{TAG}
-docker push mokpolar/custom-predictor:0.0.1
 ```
 
 3. Deploy
