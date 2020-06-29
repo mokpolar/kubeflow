@@ -9,8 +9,8 @@
 ## 테스트 조건
 ### 환경 구성
 * AWS us-east-1
-* Curl [architecture](https://github.com/mokpolar/kubeflow/tree/master/eks/samples/kafka/images/arch2.png)
-* Kafka [architecture](https://github.com/mokpolar/kubeflow/tree/master/eks/samples/kafka/images/arch1.png)
+* Curl ![architecture](https://github.com/mokpolar/kubeflow/tree/master/eks/samples/kafka/images/arch2.png)
+* Kafka ![architecture](https://github.com/mokpolar/kubeflow/tree/master/eks/samples/kafka/images/arch1.png)
 * 전송 대상 이미지
     * JPG 파일 > JSON 변환 (변환 시 사이즈 변화)
         * 1.1MB > 1.5MB
