@@ -5,9 +5,11 @@ metadata:
 spec:
   default:
     predictor:
+      minReplicas: 1
       tensorflow:
-        storageUri: "pvc://my-pvc/models/tensorflow/mobilenet/"
+        storageUri: "pvc://my-pvc-b/models/tensorflow/mobilenet/"
     transformer:
+      minReplicas: 1
       custom:
         container:
           image: mokpolar/simple-mobilenet-transformer:0.0.1
