@@ -4,5 +4,5 @@
 * KFServing-Tensorflow-Mobilenet
 * Seldoncore-Tensorflow-basic
 * KFServing-Pytorch-basic
-* Minio -> Kafka -> KFServing-Tensorflow-MobileNet
+* Kafka (external) -> KFServing-Tensorflow-MobileNet (K8S cluster)
 * custom image
