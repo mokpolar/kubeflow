@@ -1,0 +1,39 @@
+FROM tensorflow/tensorflow:2.1.0-py3-jupyter
+
+### for open-cv
+
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install git cmake wget unzip -y
+ADD opencv.sh /home/opencv.sh
+RUN chmod +x /home/opencv.sh
+RUN /home/opencv.sh
+RUN pip install Cython
+RUN pip install contextlib2
+RUN pip install pillow
+RUN pip install lxml
+ADD tfmodels.sh /home/tfmodels.sh
+RUN chmod +x /home/tfmodels.sh
+RUN /home/tfmodels.sh
+
+
+### for kfserving
+RUN pip install kfserving==0.3.0
+
+### for hm model
+
+RUN pip instal numpy, pandas
+
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+ADD cat.jpg /tmp/img/
+ADD utils /app/utils
+ADD weight /app/weight
+ADD dataset /app/dataset
+ADD models /app/models
+ADD data_load_functions.py /app/
+ADD group_norm.ly /app/
+ADD hm_inference.py /app/
+
+
+CMD ["python", "hm_inference.py"]
