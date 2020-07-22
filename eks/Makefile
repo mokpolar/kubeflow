@@ -13,7 +13,7 @@
 ### $make del_eks
 
 # user variables. you should change these variables. 
-cluster_name = jy-kubeflow-test
+cluster_name = jyjung-kubeflow-1
 node_name = kubeflow-node-1
 node_type = m5.xlarge # AL2_x86_64
 gpu_node_type = p3.2xlarge # AL2_x86_64_GPU

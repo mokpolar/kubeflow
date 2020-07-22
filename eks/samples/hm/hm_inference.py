@@ -9,6 +9,9 @@ import kfserving
 
 import tensorflow as tf
 
+# FTP library
+from ftplib import FTP
+
 # original
 
 import cv2
@@ -47,8 +50,20 @@ class KFServingSampleModel(kfserving.KFModel):
     def predict(self, request: Dict) -> Dict:
         self.ready = True
 
+
+
         inputs = request
         #set_gpu('CPU')
+
+        # ftp login
+        # get FTP Server IP
+        #IP = inputs['ftp_server']
+        #ID = inputs['ftp_id']
+        #PW = inputs['ftp_pw']
+        # FTP주소에 IP 반영하고 계정 정보도 같이 하면 될듯
+        ftp = FTP("ec2-54-204-143-157.compute-1.amazonaws.com")
+        ftp.login('fftp','wndud33')
+        ftp.cwd('./')
             
 
         # ====================================== load data
@@ -195,8 +210,8 @@ class KFServingSampleModel(kfserving.KFModel):
 
         #TEMP_DIR = os.path.join(TEMP_PATH)
         # 저장할 환자 단위 폴더 생성
-        #SAVE_DIR = f'./outputs/{PATIENT_ID:03d}_Patient'
-        TEMP_DIR = os.makedirs(TEMP_PATH, exist_ok=True)
+        SAVE_DIR = f'./outputs/{PATIENT_ID:03d}_Patient'
+        #TEMP_DIR = os.makedirs(TEMP_PATH, exist_ok=True)
         #os.makedirs(SAVE_DIR, exist_ok=True)
 
 
@@ -206,15 +221,15 @@ class KFServingSampleModel(kfserving.KFModel):
             # thresholding
             img = pred_ano>THRESHOLD_ANO
             # save thresholded imgs
-            save_img(os.path.join(TEMP_DIR, f'{i:02d}_slice.png'), img, verbose=0)
+            save_img(os.path.join(SAVE_DIR, f'{i:02d}_slice.png'), img, verbose=0)
             # save confidence imgs
-            save_img(os.path.join(TEMP_DIR, f'{i:02d}_slice_confidence.png'), pred_ano, verbose=0)
+            save_img(os.path.join(SAVE_DIR, f'{i:02d}_slice_confidence.png'), pred_ano, verbose=0)
         logging.info('Seg 결과 저장 완료...')
             
         # Cls CAM 결과 저장
         for i, cam_img in enumerate(overlay_imgs):
             # save imgs
-            save_img(os.path.join(TEMP_DIR, f'{i:02d}_slice_cam.png'), cam_img, verbose=0)
+            save_img(os.path.join(SAVE_DIR, f'{i:02d}_slice_cam.png'), cam_img, verbose=0)
         logging.info('CAM 결과 저장 완료...')
         
 
@@ -234,9 +249,15 @@ class KFServingSampleModel(kfserving.KFModel):
         # save
         df.to_csv(os.path.join(SAVE_DIR, 'slice_hm_score.csv'))
         logging.info('Slice hemorrhage score 저장완료...')
+    
+        
 
         # rename directory temp -> output __20200710
-        os.rename(TEMP_DIR, OUTPUT_PATH)
+        #os.rename(TEMP_DIR, OUTPUT_PATH)
+
+
+
+        
 
         end = str('clear')
         

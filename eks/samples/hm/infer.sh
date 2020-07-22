@@ -1,7 +1,7 @@
 #!/bin/bash
 StartTime=$(date +%s)
 
-CLUSTER_IP=a0b2f82d28e1e4f93ab7cab22a34bf49-1330092172.us-east-1.elb.amazonaws.com
+CLUSTER_IP=a928c7ef9e005401fb7c58d9a6f71d73-1684550075.us-east-1.elb.amazonaws.com
 SERVICE_HOSTNAME=hm-model.default.example.com
 INPUT_PATH=@./input.json
 MODEL_NAME=hm-model

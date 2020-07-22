@@ -17,3 +17,22 @@ spec:
             requests:
               cpu: 1500m
               memory: 10Gi
+#          securityContext:
+#            privileged: true
+              #allowPrivilegeEscalation: false
+         # env:
+         ##   - name: STORAGE_URI
+         #     value: pvc://nfs-pvc
+          #volumeDevices:
+          #  - name: nfs
+          #    devicePath: pvc://nfs-pvc
+#          volumeMounts:
+#              - readOnly: true
+#                name: nfs
+#                mountPath: /mnt
+
+#          args: ["--device=/dev/fuse", "--security-opt", "apparmor:unconfined"]
+          #args: ["--privileged", "--cap-add SYS_ADMIN", "--cap-add MKNOD", "--device=/dev/fuse", "--security-opt", "apparmor:unconfined"]
+#          env:
+#            - name: STORAGE_URI
+#              value: pvc://nfs-pvc
