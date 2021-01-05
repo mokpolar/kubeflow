@@ -1,0 +1,42 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "bert-large"
+spec:
+  default:
+    transformer:
+      minReplicas: 2
+      maxReplicas: 2
+      custom:
+        container:
+          name: kfserving-container      
+          image: gcr.io/kubeflow-ci/kfserving/bert-transformer:latest
+          resources:
+            limits:
+              cpu: "1" 
+              memory: 1Gi
+            requests:
+              cpu: "1" 
+              memory: 1Gi
+          command:
+            - "python"
+            - "-m"
+            - "bert_transformer"
+          env:
+            - name: STORAGE_URI
+              value: "gs://kfserving-samples/models/triton/bert-transformer"
+    predictor:
+      maxReplicas: 2
+      minReplicas: 2
+      triton:
+        resources:
+          limits:
+            cpu: "1"
+            memory: 9Gi
+          requests:
+            cpu: "1"
+            memory: 9Gi
+        #storageUri: "pvc://my-pvc-a"
+        #storageUri: "pvc://my-pvc-a/bert_tf_v2_large_fp16_128_v2"
+        #storageUri: "pvc://my-pvc-a/bert"
+        storageUri: "gs://jyjung_triton_bert/test"

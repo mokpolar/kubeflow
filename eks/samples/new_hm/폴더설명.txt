@@ -1,0 +1,7 @@
+[inputdata] : 입력영상 (1명분)
+[outputs] : 출력영상 예제
+  └── [intermediate] : 중간 영상(작동확인용, 최종출력 아님)
+[save_pb] : pb 형식으로 저장된 네트워크 3개
+[save_weights] : 네트워크 파라메터 저장됨, 3개
+[src] : Inferance 예제 프로그램
+  └── hm_infernece.py : 예제 소스

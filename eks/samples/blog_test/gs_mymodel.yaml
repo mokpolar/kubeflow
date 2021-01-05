@@ -1,0 +1,30 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "mobilenet"
+spec:
+  default:
+    predictor:
+      maxReplicas: 1
+      minReplicas: 1
+      tensorflow:
+        resources:
+          limits:
+            cpu: "1"
+            memory: 9Gi
+            nvidia.com/gpu: "1"
+          requests:
+            cpu: "1"
+            memory: "9Gi"
+            nvidia.com/gpu: "1"
+        storageUri: "gs://jyjung_mobilenet_2/test/saved_models"
+        runtimeVersion: "1.14.0-gpu"
+    transformer:
+      maxReplicas: 1
+      minReplicas: 1
+      custom:
+        container:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          image: mokpolar/kfserving-transformer:0.0.1

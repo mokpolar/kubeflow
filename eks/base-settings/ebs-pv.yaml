@@ -4,13 +4,27 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: my-pv-a
+  name: my-pv-b
 spec:
   capacity:
     storage: 55Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   awsElasticBlockStore:
       fsType: ext4
-      volumeID: vol-080a86485ce696266
+      volumeID: vol-0004f2e158a9921c6
 
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc-b
+  namespace: kfserving-test
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 55Gi

@@ -13,11 +13,11 @@
 ### $make del_eks
 
 # user variables. you should change these variables. 
-cluster_name = jyjung-kubeflow-1
-node_name = kubeflow-node-1
-node_type = m5.xlarge # AL2_x86_64
-gpu_node_type = p3.2xlarge # AL2_x86_64_GPU
-ssh_key_pair = jungjuyoung-dist-test
+luster_name = kubeflow-2
+node_name = kubeflow-node-jy-1
+node_type = m5.4xlarge # AL2_x86_64
+gpu_node_type = p3.2xlarge #p3dn.24xlarge #p3.2xlarge #p3.2xlarge # AL2_x86_64_GPU
+ssh_key_pair = jyjung
 
 
 # default env
@@ -25,22 +25,22 @@ base_dir = ./kube_deployment
 kf_dir = ${base_dir}/${cluster_name}
 
 # kubeflow manifest for aws  1.0.2
-config_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_aws.v1.0.2.yaml" # latest file
+#config_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_aws.v1.0.2.yaml" # latest file
+config_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.1-branch/kfdef/kfctl_aws.v1.1.0.yaml"
 
 # kubeflow manifest for aws 1.0.2 for cognito
-cognito_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_aws_cognito.v1.0.2.yaml"
-
+#cognito_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.0-branch/kfdef/kfctl_aws_cognito.v1.0.2.yaml"
+cognito_uri = "https://raw.githubusercontent.com/kubeflow/manifests/v1.1-branch/kfdef/kfctl_aws_cognito.v1.1.0.yaml"
 
 # user variables. changes are not required.
 region = us-east-1
 #node_iam = jyjung-eks-cluster-node-policy1
 
 # kubernetes version
-kube_ver = 1.15
+kube_ver = 1.16 # before this, 1.15
 
-# kfctl 1.0.2 version
-kfctl_file = https://github.com/kubeflow/kfctl/releases/download/v1.0.2/kfctl_v1.0.2-0-ga476281_darwin.tar.gz
-
+# kfctl 1.1.0 version
+kfctl_file = https://github.com/kubeflow/kfctl/releases/download/v1.1.0/kfctl_v1.1.0-0-g9a3621e_darwin.tar.gz # before this, 1.0.2
 
 
 create_cluster:
@@ -57,7 +57,7 @@ create_nodegroup:
 	aws eks --region ${region} update-kubeconfig --name ${cluster_name}
 	# create managed nodegroup 
 	eksctl create nodegroup --cluster ${cluster_name} --version ${kube_ver} --name ${node_name} --node-type ${node_type} \
-	--nodes 1 --nodes-min 1 --nodes-max 4 --node-volume-size 50 --ssh-public-key ${ssh_key_pair} --managed
+	--nodes 1 --nodes-min 1 --nodes-max 4 --node-volume-size 50 --ssh-public-key ${ssh_key_pair} --node-zones us-east-1b --managed
 
 install_kubeflow:
 	# eks config set
@@ -67,7 +67,7 @@ install_kubeflow:
 	curl -LO ${kfctl_file}
 
 	# unzip kfctl
-	tar -xvf kfctl_v1.0.2-0-ga476281_darwin.tar.gz
+	tar -xvf kfctl_v1.1.0-0-g9a3621e_darwin.tar.gz
 
 	# make kubeflow deployment directory
 	mkdir -p ${kf_dir}
@@ -84,8 +84,8 @@ install_kubeflow:
 	sed -i -e '/eksctl/d' ${kf_dir}/kfctl_aws.yaml
 
 	# deploy kubeflow
-	./kfctl apply -V -f ${kf_dir}/kfctl_aws.yaml
-	kubectl -n kubeflow get all
+	#./kfctl apply -V -f ${kf_dir}/kfctl_aws.yaml
+	#kubectl -n kubeflow get all
 
 uninstall_kubeflow:
 	cd ${kf_dir}

@@ -1,0 +1,25 @@
+# power를 올려보자
+apiVersion: serving.kubeflow.org/v1alpha2
+kind: InferenceService
+metadata:
+  name: "my-model"
+spec:
+  default:
+    predictor:
+      minReplicas: 3
+      triton:
+        resources:
+          limits:
+            cpu: 1
+            memory: 3Gi
+        storageUri: "pvc://my-pvc-b"
+    transformer:
+      custom:
+        #minReplicas: 3
+        container:
+          image: mokpolar/triton-mobilenet-transformer:0.0.1
+          name: "triton-mobilenet-transformer"
+          resources:
+            limits:
+              cpu: 1
+              memory: 2Gi

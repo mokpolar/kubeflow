@@ -1,0 +1,27 @@
+apiVersion: serving.kubeflow.org/v1alpha2
+kind: InferenceService
+metadata:
+  name: "my-model"
+spec:
+  default:
+    predictor:
+      #minReplicas: 5
+      maxReplicas: 4
+      minReplicas: 4
+      triton:
+        resources:
+          limits:
+            cpu: 1
+            memory: 5Gi
+        storageUri: "gs://jyjung-mobilenet/test"
+    transformer:
+      maxReplicas: 2
+      minReplicas: 2
+      custom:
+        container:
+          image: mokpolar/triton-mobilenet-transformer:0.0.2
+          name: "triton-mobilenet-transformer"
+          resources:
+            limits:
+              cpu: 1
+              memory: 2Gi

@@ -1,0 +1,10 @@
+eks/samples/hm*
+*.png
+*.jpg
+*.pb
+*variables
+*.index
+*.pyc
+*.DS_Store
+epoch-*
+epoch_*

@@ -1,0 +1,15 @@
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "mobilenet"
+spec:
+  default:
+    predictor:
+      minReplicas: 1
+      tensorflow:
+        storageUri: "pvc://model-pvc/saved_models"
+    transformer:
+      minReplicas: 1
+      custom:
+        container:
+          image: mokpolar/kfserving-transformer:0.0.1
